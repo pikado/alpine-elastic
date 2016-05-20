@@ -23,7 +23,10 @@ RUN curl -s https://download.elasticsearch.org/elasticsearch/release/org/elastic
 RUN adduser -D $ES_USER && ln -s $ES_HOME-$ES_VERSION $ES_HOME && chown -R $ES_USER: $ES_HOME*
 USER $ES_USER
 RUN sed -i 's/^# \(network.host:\)\( 192.168.0.1\)/\1 0.0.0.0/g' $ES_HOME/config/elasticsearch.yml
-RUN $ES_HOME/bin/plugin -DproxyHost=proxyva.casden.fr -DproxyPort=8080 install mobz/elasticsearch-head
+RUN $ES_HOME/bin/plugin install mobz/elasticsearch-head
+
+# If you use Proxy replace previous command by this:
+# RUN $ES_HOME/bin/plugin -DproxyHost=proxyva.casden.fr -DproxyPort=8080 install mobz/elasticsearch-head
 
 # Set default command
 CMD $ES_HOME/bin/elasticsearch
